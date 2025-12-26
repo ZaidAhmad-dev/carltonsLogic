@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Calendar + Clock + Stopwatch + Sticky Notes</title>
+
+  <link rel="stylesheet" href="./carltonLogic.css">
+
+  <!-- PayPal SDK is loaded dynamically by carltonsLogic.js so currency/price can change by country -->
+</head>
+
+<body>
+  <div class="app">
+    <header>
+      <div class="brand" aria-label="Carltons Logic">
+        <h1
+          class="title block3d"
+          data-text='CARLTONS "DECISIONS" & "PERSPECTIVES" ON LOGICAL LANGUGE LEARNING'
+        >
+          CARLTONS "DECISIONS" & "PERSPECTIVES" ON LOGICAL LANGUGE LEARNING
+        </h1>
+         <section class="rulesBox" id="rulesFront">
+    <h3 class="rulesTitle">How to Use the Quiz</h3>
+
+    <ol class="rulesList">
+      <li><b>Select your languages</b>, then press <b>Start</b>.</li>
+      <li>The quiz will run through the languages you picked (one at a time).</li>
+      <li><b>You must get the answer right to move forward.</b></li>
+      <li>Some questions require <b>typing</b> using the on-screen keyboard (use the Back key to erase).</li>
+      <li>For <b>blocks/puzzle</b> questions: tap blocks to move them into the answer area, and tap again to send them back.</li>
+      <li>For <b>Pinyin</b>, tone marks matter (ā á ǎ à). If your device keyboard doesn’t have tones, use the on-screen keys.</li>
+      <li>Your results save in <b>Quiz History</b>. Use <b>Clear All</b> to wipe history.</li>
+    </ol>
+
+    <p class="rulesNote">
+      Tip: If something looks “right but marked wrong”, check for extra spaces at the start/end.
+    </p>
+  </section>
+
+      </div>
+
+      <div class="header-right">
+        <div class="time-wrap">
+          <div class="time-panel">
+            <div class="time-row">
+              <div class="time-label">Time</div>
+              <div id="clockDisplay" class="clock-display">--:--:--</div>
+            </div>
+
+            <div class="time-row">
+              <div class="time-label" id="timerLabel">Stopwatch</div>
+              <div id="timerDisplay" class="timer-display">00:00</div>
+            </div>
+
+            <div class="timer-mode-row">
+              <button type="button" id="timerModeStopwatch" class="btn secondary small-btn timer-mode-toggle">Stopwatch</button>
+              <button type="button" id="timerModeCountdown" class="btn secondary small-btn timer-mode-toggle">Countdown</button>
+            </div>
+
+            <div class="countdown-inputs" id="countdownInputs">
+              <input type="number" id="countdownMinutes" min="0" max="999" placeholder="min" />
+              <input type="number" id="countdownSeconds" min="0" max="59" placeholder="sec" />
+            </div>
+
+            <div class="timer-buttons">
+              <button type="button" id="timerStartPause" class="btn small-btn">Start</button>
+              <button type="button" id="timerReset" class="btn secondary small-btn">Reset</button>
+            </div>
+          </div>
+
+          <div class="paypal-inline" id="paypalInlineBox">
+            <div class="pp-title">PayPal</div>
+
+            <!-- ✅ show subscription status right in the PayPal card -->
+            <div class="access-status" id="accessStatus">Locked • $15/month</div>
+
+            <div id="paypalButtonsInline"></div>
+            <div class="paywall-note" style="margin-top:8px;">
+              If you don’t see PayPal: don’t run from <b>file://</b>. Use Live Server / localhost.
+            </div>
+          </div>
+
+          <div class="quick-actions-out" aria-label="Quick buttons">
+            <button type="button" class="quick-btn" id="startQuizBtn">Pay to Start</button>
+            <button type="button" class="quick-btn" id="broadenBtn">🔒 Pay to Unlock</button>
+            <button type="button" class="quick-btn" id="essayBtn">🔒 Pay to Unlock</button>
+          </div>
+        </div>
+
+        <div class="mini-calendar" id="calendarCard">
+          <div class="mini-calendar-header">
+            <button type="button" id="calPrev" class="mini-cal-nav">&#x2039;</button>
+            <div id="calTitle" class="mini-cal-title">Month YYYY</div>
+            <button type="button" id="calNext" class="mini-cal-nav">&#x203A;</button>
+          </div>
+
+          <div id="calGrid" class="mini-calendar-grid"></div>
+          <div id="calSelectedLabel" class="mini-calendar-selected">Pick a date</div>
+
+          <div class="notes-popover" id="notesPopover" aria-hidden="true">
+            <div class="notes-head">
+              <div>
+                <div class="notes-title">Sticky notes</div>
+                <div class="notes-count"><span id="notesDateLabel">—</span> • <span id="notesCount">0</span></div>
+              </div>
+              <button type="button" class="notes-close" id="notesClose" title="Close">✕</button>
+            </div>
+
+            <textarea id="noteText" class="note-input" placeholder="Write a note for this date…"></textarea>
+
+            <div class="notes-actions">
+              <button type="button" id="addNoteBtn" class="btn note small-btn">Add note</button>
+              <button type="button" id="clearNotesBtn" class="btn note secondary small-btn">Clear day</button>
+            </div>
+
+            <div id="notesList" class="notes-list"></div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="dice-banner" aria-label="3D dice: CARLTONS LOGIC">
+      <div class="dice-stage">
+        <div id="diceRow1" class="dice-word row1"></div>
+        <div id="diceRow2" class="dice-word row2"></div>
+      </div>
+    </div>
+
+    <!-- ✅ NEW: PRICING + ENCOURAGEMENT SECTION (scroll down) -->
+    <section class="pricing-section" id="pricing">
+      <div class="pricing-grid">
+        <div class="pricing-card">
+          <div class="pricing-badge">Access Pass</div>
+          <h2 class="pricing-title"><span id="priceDisplay">$15</span> <span class="price-suffix">/ month</span></h2>
+          <div class="pricing-sub">Unlock the quiz + intellect tools for 1 month on this device.</div>
+
+          <ul class="pricing-list">
+            <li>✅ Full quiz access</li>
+            <li>✅ Broaden Your Intellect unlocked</li>
+            <li>✅ Writing your Essay unlocked</li>
+            <li>⏳ Auto-locks again after 1 month</li>
+          </ul>
+
+          <div class="pricing-actions">
+            <button type="button" class="btn pricing-btn" id="pricingPayBtn">Unlock Now</button>
+            <button type="button" class="btn secondary pricing-btn" id="pricingGoTopBtn">Back to Top</button>
+          </div>
+
+          <div class="pricing-fineprint" id="pricingStatusText">
+            Status: Locked • Pay to unlock.
+          </div>
+        </div>
+
+        <div class="encourage-card">
+          <h3 class="encourage-title">A word of encouragement</h3>
+          <p class="encourage-text">
+            You don’t have to be perfect — you just have to be consistent.
+            One small session a day builds real skill. Keep going.
+          </p>
+
+          <div class="encourage-quotes">
+            <div class="quote">“Discipline beats motivation.”</div>
+            <div class="quote">“Slow progress is still progress.”</div>
+            <div class="quote">“You’re building a new brain habit.”</div>
+          </div>
+
+          <div class="encourage-footer">
+            When your month ends, access will lock automatically — just renew anytime.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ✅ CUSTOM NOTE SECTION (edit this text anytime) -->
+    <section class="customNoteSection" id="customNoteSection">
+      <div class="customNoteInner">
+        <h3 class="customNoteTitle">Your Notes / Message</h3>
+        <p class="customNoteText">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+        </p>
+        <p class="customNoteText">
+          Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+          Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        </p>
+      </div>
+    </section>
+
+
+  </div>
+
+  <div class="paywall" id="paywall" aria-hidden="true">
+    <div class="paywall-card">
+      <div class="paywall-head">
+        <div class="paywall-title">Unlock the Quiz</div>
+        <button class="paywall-x" id="paywallClose" type="button">✕</button>
+      </div>
+
+      <div class="paywall-text">
+        Pay <b id="paywallPrice">$15</b> to unlock <b>1 month</b> access on this device.
+      </div>
+
+      <div id="paypalButtonsModal"></div>
+
+      <div class="paywall-note">
+        Demo mode: client-side unlock. For real security, verify payment on your server.
+      </div>
+    </div>
+  </div>
+
+  <script src="./carltonsLogic.js"></script>
+</body>
+</html>
